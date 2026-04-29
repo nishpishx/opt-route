@@ -76,6 +76,7 @@ pub fn find_path(
                 sea,
                 dist_step,
                 0.0,
+                config,
             );
 
             let new_cost = cost + step_cost;

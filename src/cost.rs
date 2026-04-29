@@ -1,4 +1,4 @@
-use crate::{grid::Grid, vessel::VesselProfile, state::SeaState};
+use crate::{vessel::VesselProfile, state::SeaState};
 
 pub struct CostConfig {
     pub weight_fuel: f64,
@@ -18,14 +18,13 @@ pub fn traversal_cost(
     vessel: &VesselProfile,
     sea: &SeaState,
     distance_nm: f64,
-    heading: f64,
+    _heading: f64,
+    config: &CostConfig,
 ) -> f64 {
     let speed = vessel.speed(sea);
     let time = distance_nm / speed;
-    let fuel = vessel.fuel_rate(speed) * time;
-
-    // 🔥 PLACEHOLDER HOOK for your Python physics model:
     let wave_penalty = 1.0 + 0.15 * sea.hs.powi(2);
+    let fuel = vessel.fuel_rate(speed) * time * wave_penalty;
 
-    fuel * wave_penalty
+    config.weight_fuel * fuel + config.weight_time * time
 }

@@ -38,7 +38,8 @@ impl Grid {
             let nc = c as isize + dc;
 
             if self.in_bounds(nr, nc) {
-                out.push((nr as usize, nc as usize, 1.0));
+                let dist = if dr == 0 || dc == 0 { 1.0 } else { std::f64::consts::SQRT_2 };
+                out.push((nr as usize, nc as usize, dist));
             }
         }
 
